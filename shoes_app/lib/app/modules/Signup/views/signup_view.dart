@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../widget/customtextformfield.dart';
 import '../controllers/signup_controller.dart';
 
 class SignupView extends GetView<SignupController> {
@@ -37,13 +38,18 @@ class SignupView extends GetView<SignupController> {
               ),
               SizedBox(height: 50),
               CustomTextFormField(
+                controller: controller.emailController,
                 label: 'Email',
               ),
               CustomTextFormField(
+                controller: controller.passwordController,
                 label: 'Password',
+                obscureText: true,
               ),
               CustomTextFormField(
+                controller: controller.confirmPasswordController,
                 label: 'Confirm Password',
+                obscureText: true,
               ),
               Spacer(),
               SizedBox(
@@ -56,7 +62,9 @@ class SignupView extends GetView<SignupController> {
                     ),
                     backgroundColor: Color(0xff3498DB)
                   ),
-                  onPressed:() {} ,
+                  onPressed:() {
+                    controller.signUp();
+                  } ,
                   child: Text(
                     'SignUp',
                     style: GoogleFonts.arimo(
@@ -136,43 +144,6 @@ class SignupView extends GetView<SignupController> {
             ],
           ),
         )
-      ),
-    );
-  }
-}
-
-class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({
-    super.key,
-    required this.label,
-    this.controller,
-    this.obscureText = false,
-    this.keyboardType,
-    this.suffixIcon,
-  });
-
-  final String label;
-  final TextEditingController? controller;
-  final bool obscureText;
-  final TextInputType? keyboardType;
-  final Widget? suffixIcon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom:25),
-      child: TextFormField(
-        keyboardType: keyboardType,
-        decoration: InputDecoration(
-          label: Text(
-            label,
-            style: TextStyle(color: Color(0xffC0C0C0)),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Color(0xffC0C0C0))
-          )
-        ),
       ),
     );
   }

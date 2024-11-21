@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shoes_app/app/modules/widget/customtextformfield.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  const LoginView({super.key});
+   LoginView({super.key});
+
+  final TextEditingController emailcontroller = TextEditingController();
+  final TextEditingController passwordcontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +41,12 @@ class LoginView extends GetView<LoginController> {
               ),
               SizedBox(height: 50),
               CustomTextFormField(
+                controller: emailcontroller,
                 label: 'Email',
               ),
               CustomTextFormField(
+                controller: passwordcontroller,
+                obscureText: true,
                 label: 'Password',
               ),
               Spacer(),
@@ -53,9 +60,14 @@ class LoginView extends GetView<LoginController> {
                     ),
                     backgroundColor: Color(0xff3498DB)
                   ),
-                  onPressed:() {} ,
+                  onPressed:() {
+                    controller.login(
+                      emailcontroller.text,
+                      passwordcontroller.text
+                    );
+                  } ,
                   child: Text(
-                    'SignUp',
+                    'Login',
                     style: GoogleFonts.arimo(
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
@@ -86,39 +98,3 @@ class LoginView extends GetView<LoginController> {
   }
 }
 
-class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({
-    super.key,
-    required this.label,
-    this.controller,
-    this.obscureText = false,
-    this.keyboardType,
-    this.suffixIcon,
-  });
-
-  final String label;
-  final TextEditingController? controller;
-  final bool obscureText;
-  final TextInputType? keyboardType;
-  final Widget? suffixIcon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom:25),
-      child: TextFormField(
-        keyboardType: keyboardType,
-        decoration: InputDecoration(
-          label: Text(
-            label,
-            style: TextStyle(color: Color(0xffC0C0C0)),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Color(0xffC0C0C0))
-          )
-        ),
-      ),
-    );
-  }
-}

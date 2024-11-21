@@ -37,7 +37,9 @@ class GetstartedView extends GetView<GetstartedController> {
                 height: 52,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed('/login');
+                  },
                   child:Text(
                     'Login',
                     style: GoogleFonts.arimo(
@@ -58,7 +60,9 @@ class GetstartedView extends GetView<GetstartedController> {
                   height: 52,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed('/signup');
+                    },
                     child:Text(
                       'SignUp',
                       style: GoogleFonts.arimo(
