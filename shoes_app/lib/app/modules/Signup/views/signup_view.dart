@@ -6,13 +6,14 @@ import '../controllers/signup_controller.dart';
 
 class SignupView extends GetView<SignupController> {
   const SignupView({super.key});
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding:EdgeInsets.all(30),
-          child:ListView(
+          padding: EdgeInsets.all(30),
+          child: ListView(
             children: [
               Center(
                 child: Container(
@@ -21,22 +22,24 @@ class SignupView extends GetView<SignupController> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image:AssetImage(
-                        'assets/images/logo.png'
-                        ),
-                      )
+                      image: AssetImage('assets/images/logo.png'),
+                    ),
                   ),
-                )
+                ),
               ),
               Text(
                 'Kicks Hub',
                 style: GoogleFonts.bebasNeue(
                   fontSize: 30,
-                  fontWeight: FontWeight.w800
+                  fontWeight: FontWeight.w800,
                 ),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 50),
+              CustomTextFormField(
+                controller: controller.nameController,
+                label: 'Username',
+              ),
               CustomTextFormField(
                 controller: controller.emailController,
                 label: 'Email',
@@ -51,30 +54,34 @@ class SignupView extends GetView<SignupController> {
                 label: 'Confirm Password',
                 obscureText: true,
               ),
-              Spacer(),
-              SizedBox(
-                height: 52,
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+              SizedBox(height: 20),
+              Obx(() {
+                return SizedBox(
+                  height: 52,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      backgroundColor: Color(0xff3498DB),
                     ),
-                    backgroundColor: Color(0xff3498DB)
+                    onPressed: controller.isLoading.value ? null : () {
+                      controller.signUp();
+                    },
+                    child: controller.isLoading.value
+                        ? CircularProgressIndicator(color: Colors.white)
+                        : Text(
+                            'SignUp',
+                            style: GoogleFonts.arimo(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
+                              color : Colors.white,
+                            ),
+                          ),
                   ),
-                  onPressed:() {
-                    controller.signUp();
-                  } ,
-                  child: Text(
-                    'SignUp',
-                    style: GoogleFonts.arimo(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white
-                    ),
-                  )
-                ),
-              ),
+                );
+              }),
               SizedBox(height: 20),
               Row(
                 children: [
@@ -83,9 +90,7 @@ class SignupView extends GetView<SignupController> {
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
                       'Or Signup With',
-                      style:GoogleFonts.arimo(
-                        color: Color(0xffC0C0C0)
-                      )
+                      style: GoogleFonts.arimo(color: Color(0xffC0C0C0)),
                     ),
                   ),
                   Expanded(child: Divider(color: Color(0xffC0C0C0), height: 3)),
@@ -102,8 +107,8 @@ class SignupView extends GetView<SignupController> {
                     ),
                     backgroundColor: Colors.white,
                   ),
-                  onPressed: (){},
-                  child:Stack(
+                  onPressed: () {},
+                  child: Stack(
                     alignment: Alignment.center,
                     children: [
                       Align(
@@ -120,30 +125,32 @@ class SignupView extends GetView<SignupController> {
                         'Sign Up With Google',
                         style: GoogleFonts.arimo(
                           fontWeight: FontWeight.w800,
-                          color: Colors.black
+                          color: Colors.black,
                         ),
-                      )
+                      ),
                     ],
-                  )
+                  ),
                 ),
               ),
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Already have an account ?'),
+                  const Text('Already have an account?'),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed('/login');
+                    },
                     child: const Text(
-                    ' Login',
-                    style: TextStyle(color: Color(0xff3498DB)),
+                      ' Login',
+                      style: TextStyle(color: Color(0xff3498DB)),
+                    ),
                   ),
-                  )
                 ],
               ),
             ],
           ),
-        )
+        ),
       ),
     );
   }

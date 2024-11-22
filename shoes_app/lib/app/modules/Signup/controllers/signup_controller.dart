@@ -6,6 +6,7 @@ class SignupController extends GetxController {
   final AuthService _authService = Get.find<AuthService>();
 
   // Controllers for the text fields
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
@@ -13,6 +14,7 @@ class SignupController extends GetxController {
   var isLoading = false.obs; // Observable for loading state
 
   Future<void> signUp() async {
+    String name = nameController.text.trim();
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
     String confirmPassword = confirmPasswordController.text.trim();
@@ -20,11 +22,10 @@ class SignupController extends GetxController {
     // Call the AuthService to sign up
     isLoading.value = true; // Set loading state to true
     try {
-      await _authService.signUp(email, password, confirmPassword);
+      await _authService.signUp(email, password, confirmPassword,name);
       Get.snackbar(
         'Signup Successful',
         'Welcome, $email',
-        snackPosition: SnackPosition.BOTTOM,
       );
       // Navigate to home or another page
       Get.offAllNamed('/home'); // Adjust the route as needed
@@ -32,7 +33,6 @@ class SignupController extends GetxController {
       Get.snackbar(
         'Error',
         e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
       );
     } finally {
       isLoading.value = false; // Reset loading state

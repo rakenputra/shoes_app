@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService extends GetxService{
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  
 
-  Future<UserCredential?> signUp(String email, String password, String confirmpassword) async {
-    if (email.isEmpty || password.isEmpty || confirmpassword.isEmpty){
+  Future<UserCredential?> signUp(String email, String password, String confirmpassword, String name) async {
+    if (email.isEmpty || password.isEmpty || confirmpassword.isEmpty || name.isEmpty) {
       throw Exception('Please fill all fields');
     }
     if (password != confirmpassword){
@@ -16,6 +18,8 @@ class AuthService extends GetxService{
         email: email,
         password: password,
       );
+
+
       return userCredential;
     }catch (e){
       throw Exception(e.toString());
@@ -25,12 +29,16 @@ class AuthService extends GetxService{
   Future<UserCredential?> login(String email, String password) async{
     try{
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email, 
+        email: email,
         password: password,
       );
       return userCredential;
     }catch (e) {
-      throw Exception(e.toString());
+      if(e is FirebaseAuthException){
+        throw Exception(e.message);
+      }else{
+        throw Exception('An unknown error occurred. Please try again.');
+      }
     }
   }
 }

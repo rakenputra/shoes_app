@@ -60,12 +60,18 @@ class LoginView extends GetView<LoginController> {
                     ),
                     backgroundColor: Color(0xff3498DB)
                   ),
-                  onPressed:() {
-                    controller.login(
-                      emailcontroller.text,
-                      passwordcontroller.text
-                    );
-                  } ,
+                  onPressed: () {
+                      controller.login(
+                        emailcontroller.text,
+                        passwordcontroller.text,
+                      ).then((success) {
+                        if (success) {
+                          Get.offAllNamed('/home'); // This will remove the login page from the stack
+                        } else {
+                          // Handle login failure (e.g., show an error message)
+                        }
+                      });
+                    },
                   child: Text(
                     'Login',
                     style: GoogleFonts.arimo(
@@ -82,7 +88,9 @@ class LoginView extends GetView<LoginController> {
                 children: [
                   const Text('Dont have account ?'),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed('/signup');
+                    },
                     child: const Text(
                     ' SignUp',
                     style: TextStyle(color: Color(0xff3498DB)),

@@ -5,8 +5,7 @@ import '../controllers/login_controller.dart';
 class LoginBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<AuthService>(() => AuthService());
-    Get.lazyPut<LoginController>(() => LoginController(),
-    );
+    Get.put<AuthService>(AuthService());  // Keeps AuthService in memory
+    Get.put<LoginController>(LoginController());  // Keeps LoginController in memory
   }
 }
